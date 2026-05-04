@@ -16,22 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ここを追加：Node.js 22 を使うように設定
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-
       - name: Install, build, and upload
         uses: withastro/action@v3
-        # setup-node で指定したバージョンがここでも引き継がれる
+        with:
+          node-version: 22 # ここで明示的に指定
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: Github Pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
